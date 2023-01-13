@@ -41,6 +41,10 @@ export const AuthenticateUsers = async (req: Request, res: Response, next: NextF
   // Bearer TOKEN
   let user = {};
   const token = req.headers.authorization?.split(' ')[1]
+  if(!token){
+    res.status(httpStatus.UNAUTHORIZED).send("no auth token found! please log in again")
+    return;
+  }
   console.log(token);
   db.BlacklistedTokensModel.findOne({
     token: token

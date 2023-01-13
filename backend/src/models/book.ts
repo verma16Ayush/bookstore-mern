@@ -21,4 +21,6 @@ const BookSchema = new Schema<IBook>({
   price: {type: Number, required: true}
 })
 
+BookSchema.index({'$**': 'text'});
+
 export const BookModel = model<IBook>('BookModel', BookSchema)

@@ -9,5 +9,13 @@ export const JWT_SECRET = process.env.JWT_SECRET || ''
 export const PATHS = {
   signup: '/user/signup',
   login: '/user/login',
-  logout: '/user/logout'
+  logout: '/user/logout',
+  books: '/books/',
+  search: '/search/general',
+  advancedSearch: '/search/advanced',
+  addToCart: '/addtocart',
+  clearCart: '/clearcart',
+  checkout: '/checkout',
+  user: '/user',
+  addShippingAddress: '/addshippingaddress'
 }

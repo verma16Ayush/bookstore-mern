@@ -1,11 +1,17 @@
-[
+import mongoose from "mongoose";
+import * as dotenv from "dotenv";
+import { DB_URI } from "./const";
+import { db } from "./models";
+import { BookModel } from "./models/book";
+
+const data = [
   {
     "title": "Bill Maher... But I'm Not Wrong",
     "isbn_number": "798853376-2",
     "author": "Maynard Cholerton",
     "genre": "Comedy",
     "synopsis": "Benign neoplasm of bones of skull and face",
-    "cover_image": "http://dummyimage.com/156x256.png/cc0000/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 305
   },
   {
@@ -14,7 +20,7 @@
     "author": "Jonis Isakson",
     "genre": "Drama",
     "synopsis": "Other child abuse and neglect",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 360
   },
   {
@@ -23,7 +29,7 @@
     "author": "Lewie Russi",
     "genre": "Animation|Fantasy|Sci-Fi",
     "synopsis": "Functional urinary incontinence",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 418
   },
   {
@@ -32,7 +38,7 @@
     "author": "Dre Watkin",
     "genre": "Animation",
     "synopsis": "Retained placenta without hemorrhage, delivered, with mention of postpartum complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 207
   },
   {
@@ -41,7 +47,7 @@
     "author": "Annis Prestney",
     "genre": "Documentary",
     "synopsis": "Personal history of transient ischemic attack (TIA), and cerebral infarction without residual deficits",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 197
   },
   {
@@ -50,7 +56,7 @@
     "author": "Zarla Fealty",
     "genre": "Action|Comedy|Sci-Fi",
     "synopsis": "Chronic osteomyelitis, lower leg",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 114
   },
   {
@@ -68,7 +74,7 @@
     "author": "Marian Theodore",
     "genre": "Animation|Fantasy|Mystery",
     "synopsis": "Other chronic pulmonary heart diseases",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 362
   },
   {
@@ -86,7 +92,7 @@
     "author": "Denna Timcke",
     "genre": "Comedy|Drama|Musical|Romance",
     "synopsis": "Accident caused by industrial wiring, appliances, and electrical machinery",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 311
   },
   {
@@ -113,7 +119,7 @@
     "author": "Carlene Dyhouse",
     "genre": "Children|Comedy|Fantasy|Romance",
     "synopsis": "Unspecified infection of the breast and nipple associated with childbirth, antepartum condition or complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 452
   },
   {
@@ -149,7 +155,7 @@
     "author": "Lauren Jeacocke",
     "genre": "Comedy|Romance",
     "synopsis": "Nontraumatic hematoma of soft tissue",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 130
   },
   {
@@ -194,7 +200,7 @@
     "author": "Frasco Jays",
     "genre": "Animation",
     "synopsis": "Coagulation defects complicating pregnancy, childbirth, or the puerperium, delivered, with mention of postpartum complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 423
   },
   {
@@ -203,7 +209,7 @@
     "author": "Sidonia Ellacombe",
     "genre": "Drama",
     "synopsis": "Burn [any degree] involving 90 percent or more of body surface with third degree burn, 80-89%",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 302
   },
   {
@@ -212,7 +218,7 @@
     "author": "Jules Kulas",
     "genre": "Documentary",
     "synopsis": "Osteoarthrosis, localized, not specified whether primary or secondary, shoulder region",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 452
   },
   {
@@ -293,7 +299,7 @@
     "author": "Pippy Rosenfelt",
     "genre": "Romance",
     "synopsis": "Inguinal hernia, with obstruction, without mention of gangrene, bilateral (not specified as recurrent)",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 186
   },
   {
@@ -302,7 +308,7 @@
     "author": "Esteban Linneman",
     "genre": "Crime|Drama|Film-Noir|Thriller",
     "synopsis": "Idiopathic lymphoid interstitial pneumonia",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 339
   },
   {
@@ -383,7 +389,7 @@
     "author": "Rodie Johnsee",
     "genre": "Action|Horror|Thriller",
     "synopsis": "C5-C7 level with other specified spinal cord injury",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 490
   },
   {
@@ -464,7 +470,7 @@
     "author": "Moise Dunne",
     "genre": "Horror",
     "synopsis": "Chronic periodontitis, localized",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 342
   },
   {
@@ -473,7 +479,7 @@
     "author": "Salomone Gramer",
     "genre": "Drama",
     "synopsis": "Shock due to anesthesia, not elsewhere classified",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 348
   },
   {
@@ -482,7 +488,7 @@
     "author": "Katherina De Bernardis",
     "genre": "Drama|War",
     "synopsis": "Degenerative disorder of globe, unspecified",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 149
   },
   {
@@ -554,7 +560,7 @@
     "author": "Obadias Reoch",
     "genre": "Comedy|Romance",
     "synopsis": "Recurrent iridocyclitis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 260
   },
   {
@@ -572,7 +578,7 @@
     "author": "Adair Ary",
     "genre": "Crime|Drama|Romance",
     "synopsis": "Contusion of unspecified site",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 406
   },
   {
@@ -581,7 +587,7 @@
     "author": "Barrett Harberer",
     "genre": "Comedy|Drama",
     "synopsis": "Personal history of leukemia, unspecified",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 285
   },
   {
@@ -635,7 +641,7 @@
     "author": "Katherine Allridge",
     "genre": "Animation",
     "synopsis": "Anatomical narrow angle borderline glaucoma",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 320
   },
   {
@@ -671,7 +677,7 @@
     "author": "Torin Troy",
     "genre": "Comedy|Drama",
     "synopsis": "Hepatitis E without mention of hepatic coma",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 250
   },
   {
@@ -680,7 +686,7 @@
     "author": "Maryanne Glover",
     "genre": "Action|Drama|Thriller",
     "synopsis": "Fall on stairs or ladders in water transport injuring occupant of other watercraft -- other than crew",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 363
   },
   {
@@ -698,7 +704,7 @@
     "author": "Nannette Wanless",
     "genre": "Drama",
     "synopsis": "Traumatic amputation of arm and hand (complete) (partial), unilateral, level not specified, without mention of complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 399
   },
   {
@@ -707,7 +713,7 @@
     "author": "Jerrylee Baggiani",
     "genre": "Documentary",
     "synopsis": "Activities involving water sliding",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 472
   },
   {
@@ -788,7 +794,7 @@
     "author": "Lombard Brandenburg",
     "genre": "Adventure",
     "synopsis": "Open wound of scalp, complicated",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 200
   },
   {
@@ -797,7 +803,7 @@
     "author": "Leupold Frodsham",
     "genre": "Drama|Romance",
     "synopsis": "Open fracture of anatomical neck of humerus",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 101
   },
   {
@@ -815,7 +821,7 @@
     "author": "Christoph Sevior",
     "genre": "Crime|Drama|Film-Noir",
     "synopsis": "Retention of urine, unspecified",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 179
   },
   {
@@ -842,7 +848,7 @@
     "author": "Agnes Maslen",
     "genre": "Action|War|Western",
     "synopsis": "Other valgus deformities of feet",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 478
   },
   {
@@ -860,7 +866,7 @@
     "author": "Lynnea Steers",
     "genre": "Action|War|Western",
     "synopsis": "Intermittent heterotropia, unspecified",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 339
   },
   {
@@ -887,7 +893,7 @@
     "author": "Chelsey Bambrugh",
     "genre": "Drama",
     "synopsis": "Traumatic pneumothorax with open wound into thorax",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 467
   },
   {
@@ -896,7 +902,7 @@
     "author": "Kissiah Banford",
     "genre": "Drama|Horror",
     "synopsis": "Unspecified prolonged labor, antepartum condition or complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 425
   },
   {
@@ -941,7 +947,7 @@
     "author": "Allan Labbe",
     "genre": "Documentary",
     "synopsis": "Superficial foreign body (splinter) of hip, thigh, leg, and ankle, without major open wound and without mention of infection",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 262
   },
   {
@@ -977,7 +983,7 @@
     "author": "Desiree Vittel",
     "genre": "Horror|Thriller",
     "synopsis": "Abnormal chest sounds",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 292
   },
   {
@@ -1049,7 +1055,7 @@
     "author": "Otis Gubbins",
     "genre": "Comedy",
     "synopsis": "Schmorl's nodes, thoracic region",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 480
   },
   {
@@ -1076,7 +1082,7 @@
     "author": "Felicle Sausman",
     "genre": "Drama",
     "synopsis": "Nonspecific (abnormal) findings on radiological and other examination of biliary tract",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 461
   },
   {
@@ -1085,7 +1091,7 @@
     "author": "Gerardo O'Sirin",
     "genre": "Action|Drama",
     "synopsis": "Ocular hypertension",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 105
   },
   {
@@ -1139,7 +1145,7 @@
     "author": "Torrence Trencher",
     "genre": "Comedy",
     "synopsis": "Orthodontics aftercare",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 371
   },
   {
@@ -1211,7 +1217,7 @@
     "author": "Pascal Spondley",
     "genre": "Drama|Romance",
     "synopsis": "Dermatographic urticaria",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 226
   },
   {
@@ -1247,7 +1253,7 @@
     "author": "Pen Fargher",
     "genre": "Crime|Thriller",
     "synopsis": "Other encephalitis and encephalomyelitis due to other infections classified elsewhere",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 126
   },
   {
@@ -1310,7 +1316,7 @@
     "author": "Jacintha Mariner",
     "genre": "Documentary",
     "synopsis": "Secondary malignant neoplasm of other specified sites",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 329
   },
   {
@@ -1319,7 +1325,7 @@
     "author": "Luke Deely",
     "genre": "Action|Sci-Fi",
     "synopsis": "Encopresis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 354
   },
   {
@@ -1346,7 +1352,7 @@
     "author": "Robinson Vellacott",
     "genre": "Drama",
     "synopsis": "Antivaricose drugs, including sclerosing agents, causing adverse effects in therapeutic use",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 107
   },
   {
@@ -1373,7 +1379,7 @@
     "author": "Jacklyn Hamlet",
     "genre": "Action|Adventure|Fantasy|Romance|IMAX",
     "synopsis": "Pulmonary congestion and hypostasis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 342
   },
   {
@@ -1445,7 +1451,7 @@
     "author": "Veronique Dyball",
     "genre": "Crime|Drama|Romance",
     "synopsis": "Sezary's disease, spleen",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 499
   },
   {
@@ -1463,7 +1469,7 @@
     "author": "Oren Qusklay",
     "genre": "Documentary",
     "synopsis": "Sedative, hypnotic or anxiolytic abuse, continuous",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 224
   },
   {
@@ -1499,7 +1505,7 @@
     "author": "Haroun Mullany",
     "genre": "Action|Adventure|Crime|Thriller",
     "synopsis": "One eye: moderate vision impairment; other eye: near-normal vision",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 347
   },
   {
@@ -1517,7 +1523,7 @@
     "author": "Godart Kirton",
     "genre": "Action|Comedy|Crime|Drama",
     "synopsis": "Injury to unspecified blood vessel of abdomen and pelvis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 449
   },
   {
@@ -1598,7 +1604,7 @@
     "author": "Carolin Aspin",
     "genre": "Action|Sci-Fi|Thriller",
     "synopsis": "Female genital mutilation Type I status",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 217
   },
   {
@@ -1787,7 +1793,7 @@
     "author": "Reuben Enga",
     "genre": "Adventure|Children",
     "synopsis": "Acute chemical conjunctivitis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 257
   },
   {
@@ -1805,7 +1811,7 @@
     "author": "Teddie Liggons",
     "genre": "Drama|Romance",
     "synopsis": "Bipolar I disorder, single manic episode, severe, without mention of psychotic behavior",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 221
   },
   {
@@ -1841,7 +1847,7 @@
     "author": "Andi Tilliards",
     "genre": "Action|Crime|Drama",
     "synopsis": "Other and unspecified anomalies of musculoskeletal system",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 214
   },
   {
@@ -1886,7 +1892,7 @@
     "author": "Harlie McDonough",
     "genre": "Drama",
     "synopsis": "Chronic passive congestion of liver",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 352
   },
   {
@@ -1904,7 +1910,7 @@
     "author": "Michaeline Matley",
     "genre": "Drama",
     "synopsis": "Aseptic necrosis of medial femoral condyle",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 235
   },
   {
@@ -1958,7 +1964,7 @@
     "author": "Charmain McMenamy",
     "genre": "Action|Crime",
     "synopsis": "Intracranial injury of other and unspecified nature with open intracranial wound, with no loss of consciousness",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 124
   },
   {
@@ -1976,7 +1982,7 @@
     "author": "Rene Le Strange",
     "genre": "Drama",
     "synopsis": "Malignant neoplasm of lacrimal duct",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 397
   },
   {
@@ -2021,7 +2027,7 @@
     "author": "Guss Penritt",
     "genre": "Romance",
     "synopsis": "Enlargement of lymph nodes",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 134
   },
   {
@@ -2039,7 +2045,7 @@
     "author": "Felix O'Hern",
     "genre": "Comedy",
     "synopsis": "Other late effects of cerebrovascular disease, vertigo",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 297
   },
   {
@@ -2057,7 +2063,7 @@
     "author": "Trenton Rainforth",
     "genre": "Horror",
     "synopsis": "Spinal anesthetics causing adverse effects in therapeutic use",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 202
   },
   {
@@ -2111,7 +2117,7 @@
     "author": "Sheila Dukesbury",
     "genre": "Documentary",
     "synopsis": "Other specified alveolar anomaly",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 220
   },
   {
@@ -2210,7 +2216,7 @@
     "author": "Brig Ridolfi",
     "genre": "Horror|Mystery",
     "synopsis": "Other causes of myelitis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 157
   },
   {
@@ -2228,7 +2234,7 @@
     "author": "Vonny Michallat",
     "genre": "Horror",
     "synopsis": "Late effects of cerebrovascular disease, alterations of sensations",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 361
   },
   {
@@ -2246,7 +2252,7 @@
     "author": "Tally D'Agostini",
     "genre": "Drama",
     "synopsis": "Hyperplasia of renal artery",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 157
   },
   {
@@ -2273,7 +2279,7 @@
     "author": "Tally Ingre",
     "genre": "Drama",
     "synopsis": "Unspecified osteomyelitis, hand",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 470
   },
   {
@@ -2354,7 +2360,7 @@
     "author": "Eleanora Zolini",
     "genre": "Drama",
     "synopsis": "Burn [any degree] involving 70-79 percent of body surface with third degree burn, 30-39%",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 422
   },
   {
@@ -2363,7 +2369,7 @@
     "author": "Iona Yardy",
     "genre": "Documentary",
     "synopsis": "Late effect of injury due to terrorism",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 453
   },
   {
@@ -2381,7 +2387,7 @@
     "author": "Elsy Westphalen",
     "genre": "Drama",
     "synopsis": "Poisoning by other psychostimulants",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 185
   },
   {
@@ -2462,7 +2468,7 @@
     "author": "Jedd Gauford",
     "genre": "Action|Crime|Drama",
     "synopsis": "Unstable lie, antepartum condition or complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 495
   },
   {
@@ -2471,7 +2477,7 @@
     "author": "Janeta Hellmore",
     "genre": "Comedy|Drama|Romance",
     "synopsis": "Nephritis and nephropathy, not specified as acute or chronic, with other specified pathological lesion in kidney",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 304
   },
   {
@@ -2489,7 +2495,7 @@
     "author": "Curran End",
     "genre": "Drama|Mystery|Thriller",
     "synopsis": "Accidental poisoning by unspecified carbon monoxide",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 154
   },
   {
@@ -2561,7 +2567,7 @@
     "author": "Osmond Kislingbury",
     "genre": "Action",
     "synopsis": "Disturbances of tooth formation",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 206
   },
   {
@@ -2651,7 +2657,7 @@
     "author": "Hugo Hoult",
     "genre": "Animation|Children|Fantasy|Romance",
     "synopsis": "Anti-infectives and other drugs and preparations for ear, nose, and throat causing adverse effects in therapeutic use",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 203
   },
   {
@@ -2660,7 +2666,7 @@
     "author": "Udell Beardshall",
     "genre": "Drama",
     "synopsis": "Activities involving gymnastics",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 316
   },
   {
@@ -2750,7 +2756,7 @@
     "author": "Tye Ragles",
     "genre": "Drama",
     "synopsis": "Body Mass Index 39.0-39.9, adult",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 446
   },
   {
@@ -2768,7 +2774,7 @@
     "author": "Stephi McLafferty",
     "genre": "Comedy|Drama",
     "synopsis": "Injury to duodenum, without open wound into cavity",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 375
   },
   {
@@ -2795,7 +2801,7 @@
     "author": "Hedwiga Billborough",
     "genre": "Comedy|Drama",
     "synopsis": "Goiter, unspecified",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 371
   },
   {
@@ -2813,7 +2819,7 @@
     "author": "Alyson Outibridge",
     "genre": "Crime|Drama|Thriller",
     "synopsis": "Elevated sedimentation rate",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 361
   },
   {
@@ -2876,7 +2882,7 @@
     "author": "Veronike Jurkowski",
     "genre": "Horror|Sci-Fi",
     "synopsis": "Sprain of sternum, other",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 311
   },
   {
@@ -2894,7 +2900,7 @@
     "author": "Terri-jo Cutcliffe",
     "genre": "Drama|War",
     "synopsis": "Arthropathy associated with mycoses, forearm",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 278
   },
   {
@@ -2939,7 +2945,7 @@
     "author": "Doris Gration",
     "genre": "Drama|Film-Noir",
     "synopsis": "Prolapsed arm of fetus, unspecified as to episode of care or not applicable",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 386
   },
   {
@@ -2948,7 +2954,7 @@
     "author": "Rafaello Norcliff",
     "genre": "Action|Adventure|Crime|Thriller",
     "synopsis": "Toxic effect of other chlorinated hydrocarbon solvents",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 305
   },
   {
@@ -2966,7 +2972,7 @@
     "author": "Kathrine Curbishley",
     "genre": "Crime|Drama|Thriller",
     "synopsis": "Developmental dislocation of joint, hand",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 272
   },
   {
@@ -2975,7 +2981,7 @@
     "author": "Berti Leverington",
     "genre": "Adventure|Drama",
     "synopsis": "Personal history of pre-term labor",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 180
   },
   {
@@ -3092,7 +3098,7 @@
     "author": "Fabian Ayling",
     "genre": "Action|Fantasy|Horror|IMAX",
     "synopsis": "Open fracture of surgical neck of humerus",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 414
   },
   {
@@ -3137,7 +3143,7 @@
     "author": "Ira Fanshawe",
     "genre": "Comedy|Musical",
     "synopsis": "Pulmonary complications of anesthesia or other sedation in labor and delivery, delivered, with or without mention of antepartum condition",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 189
   },
   {
@@ -3146,7 +3152,7 @@
     "author": "Noelani Hadwick",
     "genre": "Drama",
     "synopsis": "Open fracture of lumbar vertebra without mention of spinal cord injury",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 124
   },
   {
@@ -3236,7 +3242,7 @@
     "author": "Inglis Coule",
     "genre": "Drama",
     "synopsis": "Poisoning by tetanus vaccine",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 451
   },
   {
@@ -3272,7 +3278,7 @@
     "author": "Dorena Scarrisbrick",
     "genre": "Drama",
     "synopsis": "Late effect of fracture of multiple and unspecified bones",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 204
   },
   {
@@ -3290,7 +3296,7 @@
     "author": "Abrahan Burnes",
     "genre": "Crime|Drama",
     "synopsis": "Malocclusion, unspecified",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 299
   },
   {
@@ -3308,7 +3314,7 @@
     "author": "Tara Brimming",
     "genre": "Comedy|Drama",
     "synopsis": "Other activity involving cardiorespiratory exercise",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 452
   },
   {
@@ -3353,7 +3359,7 @@
     "author": "Andrus Potter",
     "genre": "Animation|Children|Comedy",
     "synopsis": "Herpetic ulceration of vulva",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 486
   },
   {
@@ -3362,7 +3368,7 @@
     "author": "Mabel Scarff",
     "genre": "Sci-Fi|Thriller",
     "synopsis": "Poisoning by other utility gas, undetermined whether accidentally or purposely inflicted",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 324
   },
   {
@@ -3452,7 +3458,7 @@
     "author": "Micky Kimmel",
     "genre": "Drama",
     "synopsis": "Kaschin-Beck disease, site unspecified",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 405
   },
   {
@@ -3533,7 +3539,7 @@
     "author": "Clarisse Butts",
     "genre": "Crime|Drama",
     "synopsis": "Regional enteritis of large intestine",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 341
   },
   {
@@ -3560,7 +3566,7 @@
     "author": "Ludovika Gomar",
     "genre": "Comedy",
     "synopsis": "Collapse of dam or man-made structure",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 481
   },
   {
@@ -3587,7 +3593,7 @@
     "author": "Hadria Ditter",
     "genre": "Crime|Drama|Thriller",
     "synopsis": "Pain in limb",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 133
   },
   {
@@ -3596,7 +3602,7 @@
     "author": "Aldis MacAllaster",
     "genre": "Action|Drama",
     "synopsis": "Chronic vascular insufficiency of intestine",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 325
   },
   {
@@ -3623,7 +3629,7 @@
     "author": "Happy Bridgwater",
     "genre": "Drama|Mystery|Thriller",
     "synopsis": "Acute canaliculitis, lacrimal",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 421
   },
   {
@@ -3695,7 +3701,7 @@
     "author": "Benn Cadigan",
     "genre": "Comedy",
     "synopsis": "Complications of transplanted organ, stem cell",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 342
   },
   {
@@ -3740,7 +3746,7 @@
     "author": "Walther Alenshev",
     "genre": "Comedy|Romance",
     "synopsis": "Chronic venous embolism and thrombosis of deep vessels of proximal lower extremity",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 415
   },
   {
@@ -3749,7 +3755,7 @@
     "author": "Ilise Rodenburg",
     "genre": "Action|Crime|Thriller",
     "synopsis": "Retained portions of placenta or membranes, without hemorrhage, delivered, with mention of postpartum complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 251
   },
   {
@@ -3785,7 +3791,7 @@
     "author": "Joceline Walls",
     "genre": "Fantasy|Horror|Thriller",
     "synopsis": "Open wound of abdominal wall, anterior, complicated",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 423
   },
   {
@@ -3803,7 +3809,7 @@
     "author": "Maximilien Pagnin",
     "genre": "Comedy|Drama",
     "synopsis": "Orbital tenonitis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 110
   },
   {
@@ -3857,7 +3863,7 @@
     "author": "Boonie Doust",
     "genre": "Animation|Comedy",
     "synopsis": "Other orthopedic aftercare",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 291
   },
   {
@@ -3866,7 +3872,7 @@
     "author": "Annette Richardt",
     "genre": "Fantasy|Horror|Mystery|Romance",
     "synopsis": "Retroverted and incarcerated gravid uterus, unspecified as to episode of care or not applicable",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 499
   },
   {
@@ -3911,7 +3917,7 @@
     "author": "Ian Amis",
     "genre": "Action|Horror|Sci-Fi|Thriller",
     "synopsis": "Visible peristalsis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 358
   },
   {
@@ -3938,7 +3944,7 @@
     "author": "Dunstan Pinchbeck",
     "genre": "(no genres listed)",
     "synopsis": "Endometriosis of intestine",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 276
   },
   {
@@ -4019,7 +4025,7 @@
     "author": "Murdoch Redrup",
     "genre": "War",
     "synopsis": "Tuberculous peritonitis, unspecified",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 297
   },
   {
@@ -4037,7 +4043,7 @@
     "author": "Adrienne Jesteco",
     "genre": "Comedy|Musical|Romance",
     "synopsis": "Closed lateral dislocation of elbow",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 295
   },
   {
@@ -4064,7 +4070,7 @@
     "author": "Rudy Moreman",
     "genre": "Horror|Sci-Fi|Thriller",
     "synopsis": "Other gonococcal infection of joint",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 398
   },
   {
@@ -4208,7 +4214,7 @@
     "author": "Annecorinne Tissell",
     "genre": "Comedy",
     "synopsis": "Railway accident involving derailment without antecedent collision injuring railway employee",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 286
   },
   {
@@ -4217,7 +4223,7 @@
     "author": "Mavis Larner",
     "genre": "Drama",
     "synopsis": "Fracture of clavicle due to birth trauma",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 441
   },
   {
@@ -4226,7 +4232,7 @@
     "author": "Ken Tozer",
     "genre": "Comedy|Romance",
     "synopsis": "Personal history, urinary (tract) infection",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 314
   },
   {
@@ -4235,7 +4241,7 @@
     "author": "Odilia Purkiss",
     "genre": "Action|Comedy|Crime|Romance",
     "synopsis": "Vitiligo",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 478
   },
   {
@@ -4262,7 +4268,7 @@
     "author": "Mandy Garwill",
     "genre": "Action|Horror|Sci-Fi",
     "synopsis": "Closed dislocation of radiocarpal (joint)",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 283
   },
   {
@@ -4289,7 +4295,7 @@
     "author": "Olvan Tolman",
     "genre": "Comedy",
     "synopsis": "Contusion of heart without mention of open wound into thorax",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 255
   },
   {
@@ -4298,7 +4304,7 @@
     "author": "Willabella Galia",
     "genre": "Drama|Horror|Thriller",
     "synopsis": "Retroverted and incarcerated gravid uterus, delivered, with mention of antepartum condition",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 319
   },
   {
@@ -4397,7 +4403,7 @@
     "author": "Wendeline Oxtoby",
     "genre": "Documentary",
     "synopsis": "Spontaneous abortion, with unspecified complication, unspecified",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 239
   },
   {
@@ -4424,7 +4430,7 @@
     "author": "Lesley Formigli",
     "genre": "Comedy|Romance",
     "synopsis": "Better eye: near-total vision impairment; lesser eye: not further specified",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 113
   },
   {
@@ -4532,7 +4538,7 @@
     "author": "Jocelyne Pulford",
     "genre": "Documentary|Drama",
     "synopsis": "Abnormal chest sounds",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 498
   },
   {
@@ -4550,7 +4556,7 @@
     "author": "Averill Entissle",
     "genre": "Action|Crime|Thriller",
     "synopsis": "Acute endophthalmitis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 121
   },
   {
@@ -4577,7 +4583,7 @@
     "author": "Ellissa Mant",
     "genre": "Crime|Film-Noir",
     "synopsis": "Teething syndrome",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 464
   },
   {
@@ -4622,7 +4628,7 @@
     "author": "Emanuele Holtham",
     "genre": "Comedy",
     "synopsis": "Crushing injury of knee",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 352
   },
   {
@@ -4640,7 +4646,7 @@
     "author": "Arthur Bridal",
     "genre": "Drama",
     "synopsis": "Nonspecific abnormal results of other specified function study",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 324
   },
   {
@@ -4694,7 +4700,7 @@
     "author": "Claybourne Healing",
     "genre": "Animation|Children|Musical",
     "synopsis": "Unspecified infection or infestation of mother, antepartum condition or complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 405
   },
   {
@@ -4712,7 +4718,7 @@
     "author": "Rodge Ackerman",
     "genre": "Drama",
     "synopsis": "Other mumps with other specified complications",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 434
   },
   {
@@ -4721,7 +4727,7 @@
     "author": "Hartley Baglin",
     "genre": "Action|Crime|Thriller",
     "synopsis": "Asphyxia",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 466
   },
   {
@@ -4784,7 +4790,7 @@
     "author": "Brandea Bools",
     "genre": "Action|Romance",
     "synopsis": "Malignant neoplasm of other major salivary glands",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 128
   },
   {
@@ -4802,7 +4808,7 @@
     "author": "Merrill Klaggeman",
     "genre": "Action|Sci-Fi",
     "synopsis": "Unspecified nerve root and plexus disorder",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 475
   },
   {
@@ -4829,7 +4835,7 @@
     "author": "Farley Combes",
     "genre": "Thriller",
     "synopsis": "Disorders of mitochondrial metabolism",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 214
   },
   {
@@ -4883,7 +4889,7 @@
     "author": "Neilla Thinn",
     "genre": "Western",
     "synopsis": "Volume depletion, unspecified",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 213
   },
   {
@@ -4964,7 +4970,7 @@
     "author": "Rhianon Crisford",
     "genre": "Drama",
     "synopsis": "Acute Eustachian salpingitis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 311
   },
   {
@@ -4982,7 +4988,7 @@
     "author": "Sawyer Ashall",
     "genre": "Drama|Romance|War",
     "synopsis": "Hepatitis B carrier",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 228
   },
   {
@@ -5009,7 +5015,7 @@
     "author": "Kennett Milmo",
     "genre": "Action|Comedy|Drama|Musical|Romance",
     "synopsis": "Other genetic carrier status",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 387
   },
   {
@@ -5090,7 +5096,7 @@
     "author": "Kinnie Kisar",
     "genre": "Horror|Mystery",
     "synopsis": "Full-thickness skin loss [third degree, not otherwise specified] of chin",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 152
   },
   {
@@ -5162,7 +5168,7 @@
     "author": "Bendix Lightowlers",
     "genre": "Adventure|Children|Comedy|Musical|Sci-Fi",
     "synopsis": "Mucopolysaccharidosis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 386
   },
   {
@@ -5171,7 +5177,7 @@
     "author": "Konstantin Althorp",
     "genre": "Comedy",
     "synopsis": "Contracture of joint, upper arm",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 307
   },
   {
@@ -5216,7 +5222,7 @@
     "author": "Erich Roddick",
     "genre": "Adventure|Crime|Documentary|Drama",
     "synopsis": "Peritoneal effusion (chronic)",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 168
   },
   {
@@ -5270,7 +5276,7 @@
     "author": "Hugibert Birtle",
     "genre": "Comedy|Drama|Romance",
     "synopsis": "Unspecified vomiting of pregnancy, antepartum condition or complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 134
   },
   {
@@ -5324,7 +5330,7 @@
     "author": "Adolphe Matthis",
     "genre": "Drama|Horror|Thriller",
     "synopsis": "Alopecia, unspecified",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 163
   },
   {
@@ -5351,7 +5357,7 @@
     "author": "Hurleigh Stendell",
     "genre": "Action|Comedy|Thriller",
     "synopsis": "Closed fracture of lower end of femur, unspecified part",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 178
   },
   {
@@ -5360,7 +5366,7 @@
     "author": "Pincus Pedrollo",
     "genre": "Drama",
     "synopsis": "Pica",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 283
   },
   {
@@ -5369,7 +5375,7 @@
     "author": "Andros Pusey",
     "genre": "Drama",
     "synopsis": "Other specified pruritic conditions",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 313
   },
   {
@@ -5396,7 +5402,7 @@
     "author": "Jada Bathow",
     "genre": "Documentary",
     "synopsis": "Assault by criminal neglect",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 159
   },
   {
@@ -5405,7 +5411,7 @@
     "author": "Sutherlan Balog",
     "genre": "Comedy",
     "synopsis": "Injury due to war operations by unspecified explosion",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 285
   },
   {
@@ -5603,7 +5609,7 @@
     "author": "Todd Praton",
     "genre": "Drama|Thriller",
     "synopsis": "Shiga toxin-producing Escherichia coli [E. coli] (STEC), unspecified",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 233
   },
   {
@@ -5621,7 +5627,7 @@
     "author": "Brinn Lutzmann",
     "genre": "Comedy",
     "synopsis": "Tuberculosis of ear, bacteriological or histological examination not done",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 199
   },
   {
@@ -5648,7 +5654,7 @@
     "author": "Brooks Conklin",
     "genre": "Drama|Mystery",
     "synopsis": "Open wound of upper arm, without mention of complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 494
   },
   {
@@ -5693,7 +5699,7 @@
     "author": "Dinny Holt",
     "genre": "Drama|Musical",
     "synopsis": "Vesicoureteral reflux with reflux nephropathy, bilateral",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 254
   },
   {
@@ -5702,7 +5708,7 @@
     "author": "Iosep Dagnan",
     "genre": "Drama|Romance",
     "synopsis": "Need for prophylactic immunotherapy",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 367
   },
   {
@@ -5738,7 +5744,7 @@
     "author": "Shelia Week",
     "genre": "Drama|Mystery|Thriller",
     "synopsis": "Other specified maternal conditions affecting fetus or newborn",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 159
   },
   {
@@ -5756,7 +5762,7 @@
     "author": "Delaney Cartmel",
     "genre": "Comedy|Crime",
     "synopsis": "Chronic cholecystitis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 168
   },
   {
@@ -5792,7 +5798,7 @@
     "author": "Saunderson Shrubb",
     "genre": "Horror|Sci-Fi",
     "synopsis": "Suspected damage to fetus from drugs, affecting management of mother, unspecified as to episode of care or not applicable",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 444
   },
   {
@@ -5864,7 +5870,7 @@
     "author": "Terrill Hawick",
     "genre": "Drama|Romance",
     "synopsis": "Other ill-defined cerebrovascular disease",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 249
   },
   {
@@ -5909,7 +5915,7 @@
     "author": "Nelli Bootton",
     "genre": "Comedy",
     "synopsis": "Hodgkin's disease, lymphocytic-histiocytic predominance, spleen",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 346
   },
   {
@@ -5918,7 +5924,7 @@
     "author": "Robina Despenser",
     "genre": "Horror",
     "synopsis": "Benign neoplasm of cornea",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 286
   },
   {
@@ -5954,7 +5960,7 @@
     "author": "Rooney Salmoni",
     "genre": "Horror",
     "synopsis": "Enthesopathy of unspecified site",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 196
   },
   {
@@ -5972,7 +5978,7 @@
     "author": "Olga Iddison",
     "genre": "Comedy|Drama",
     "synopsis": "Mediastinitis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 258
   },
   {
@@ -5990,7 +5996,7 @@
     "author": "Rozelle Seyers",
     "genre": "Comedy|Horror",
     "synopsis": "Contracture of joint, lower leg",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 477
   },
   {
@@ -6053,7 +6059,7 @@
     "author": "Doroteya Adlington",
     "genre": "Action|Adventure|Thriller",
     "synopsis": "Burn of larynx, trachea, and lung",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 201
   },
   {
@@ -6089,7 +6095,7 @@
     "author": "Cash Crumpe",
     "genre": "Horror",
     "synopsis": "Failure to thrive",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 424
   },
   {
@@ -6125,7 +6131,7 @@
     "author": "Obed Cleyburn",
     "genre": "Documentary",
     "synopsis": "Open fracture of base of skull with intracranial injury of other and unspecified nature, with loss of consciousness of unspecified duration",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 437
   },
   {
@@ -6143,7 +6149,7 @@
     "author": "Suzette Epgrave",
     "genre": "Comedy|Crime",
     "synopsis": "Open wound of elbow, without mention of complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 260
   },
   {
@@ -6197,7 +6203,7 @@
     "author": "Virgie Featherstonhaugh",
     "genre": "Western",
     "synopsis": "Edema of male genital organs",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 296
   },
   {
@@ -6206,7 +6212,7 @@
     "author": "Kilian Swyer",
     "genre": "Action|Western",
     "synopsis": "Fetal and newborn aspiration, unspecified",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 430
   },
   {
@@ -6296,7 +6302,7 @@
     "author": "Peyter Durtnal",
     "genre": "Drama|Thriller",
     "synopsis": "Severe pre-eclampsia, postpartum condition or complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 485
   },
   {
@@ -6314,7 +6320,7 @@
     "author": "Marylou Venn",
     "genre": "Crime|Film-Noir|Mystery",
     "synopsis": "Shock during or following labor and delivery, antepartum condition or complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 226
   },
   {
@@ -6323,7 +6329,7 @@
     "author": "Archy Gorling",
     "genre": "Documentary|Drama",
     "synopsis": "Toxic effect of tobacco",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 416
   },
   {
@@ -6521,7 +6527,7 @@
     "author": "Yuri Lambourne",
     "genre": "Drama",
     "synopsis": "Injury to gastric artery",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 487
   },
   {
@@ -6530,7 +6536,7 @@
     "author": "Hermie Vallantine",
     "genre": "Action",
     "synopsis": "Acquired deformity of pelvis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 198
   },
   {
@@ -6548,7 +6554,7 @@
     "author": "Jerrie Emlin",
     "genre": "Children|Comedy|Sci-Fi",
     "synopsis": "Open dislocation, thoracic vertebra",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 358
   },
   {
@@ -6602,7 +6608,7 @@
     "author": "Langston Sutworth",
     "genre": "Action|Comedy",
     "synopsis": "Epilepsy complicating pregnancy, childbirth, or the puerperium, delivered, with mention of postpartum complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 453
   },
   {
@@ -6611,7 +6617,7 @@
     "author": "Chet Wethers",
     "genre": "Comedy|Drama",
     "synopsis": "Acute lymphoid leukemia, in relapse",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 314
   },
   {
@@ -6620,7 +6626,7 @@
     "author": "Carolyne Dorracott",
     "genre": "Drama|Romance",
     "synopsis": "Sprain of sacrotuberous (ligament)",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 345
   },
   {
@@ -6647,7 +6653,7 @@
     "author": "Renault Bricknell",
     "genre": "Comedy|Fantasy",
     "synopsis": "Injury to other intra-abdominal organs with open wound into cavity, adrenal gland",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 188
   },
   {
@@ -6665,7 +6671,7 @@
     "author": "Brok Kalb",
     "genre": "Comedy",
     "synopsis": "Special screening examination for unspecified viral disease",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 272
   },
   {
@@ -6719,7 +6725,7 @@
     "author": "Tasia Grimmolby",
     "genre": "Comedy|Drama",
     "synopsis": "Other postinfectious encephalitis and encephalomyelitis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 351
   },
   {
@@ -6737,7 +6743,7 @@
     "author": "Yovonnda Nottingam",
     "genre": "Horror",
     "synopsis": "Other specified miliary tuberculosis, bacteriological or histological examination unknown (at present)",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 139
   },
   {
@@ -6782,7 +6788,7 @@
     "author": "Wilma Sager",
     "genre": "Action|Adventure|Sci-Fi",
     "synopsis": "Closed dislocation of metacarpophalangeal (joint)",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 399
   },
   {
@@ -6962,7 +6968,7 @@
     "author": "Rennie Fowden",
     "genre": "Drama|Romance",
     "synopsis": "Allergy to peanuts",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 414
   },
   {
@@ -7007,7 +7013,7 @@
     "author": "Ethel Gavin",
     "genre": "Thriller",
     "synopsis": "Other fall from one level to another in water transport injuring dockers, stevedores",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 267
   },
   {
@@ -7079,7 +7085,7 @@
     "author": "Perla Mayberry",
     "genre": "Documentary",
     "synopsis": "\"Light-for-dates\" with signs of fetal malnutrition, less than 500 grams",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 276
   },
   {
@@ -7115,7 +7121,7 @@
     "author": "Stern Gosdin",
     "genre": "Crime|Drama|Romance",
     "synopsis": "Poisoning by expectorants",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 399
   },
   {
@@ -7142,7 +7148,7 @@
     "author": "Nevil Arunowicz",
     "genre": "Drama|Romance",
     "synopsis": "Angiodysplasia of stomach and duodenum without mention of hemorrhage",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 145
   },
   {
@@ -7151,7 +7157,7 @@
     "author": "Gustavo McBain",
     "genre": "Comedy",
     "synopsis": "Accidents caused by mining and earth-drilling machinery",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 309
   },
   {
@@ -7196,7 +7202,7 @@
     "author": "Brock Matushenko",
     "genre": "Drama|Sci-Fi|Thriller",
     "synopsis": "Injury to sciatic nerve",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 173
   },
   {
@@ -7214,7 +7220,7 @@
     "author": "Saba Mathwin",
     "genre": "Comedy",
     "synopsis": "Adjustment reaction with physical symptoms",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 204
   },
   {
@@ -7241,7 +7247,7 @@
     "author": "Stevie Dungate",
     "genre": "Comedy|Crime",
     "synopsis": "Personal history, nephrotic syndrome",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 288
   },
   {
@@ -7313,7 +7319,7 @@
     "author": "Stefanie Pentycost",
     "genre": "Adventure|Crime|Thriller",
     "synopsis": "Temporal sclerosis",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 156
   },
   {
@@ -7340,7 +7346,7 @@
     "author": "Dudley Lockett",
     "genre": "Comedy|Drama",
     "synopsis": "Nonspecific (abnormal) findings on radiological and other examination of musculoskeletal system",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 199
   },
   {
@@ -7394,7 +7400,7 @@
     "author": "Jocko Chettoe",
     "genre": "Adventure|Children",
     "synopsis": "Screening for depression",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 152
   },
   {
@@ -7430,7 +7436,7 @@
     "author": "Morten Culmer",
     "genre": "Drama",
     "synopsis": "Transient disorder of initiating or maintaining wakefulness",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 121
   },
   {
@@ -7448,7 +7454,7 @@
     "author": "Frayda Maffei",
     "genre": "Comedy|Romance",
     "synopsis": "Other and unspecified cerebral laceration and contusion, without mention of open intracranial wound, with loss of consciousness of unspecified duration",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 200
   },
   {
@@ -7484,7 +7490,7 @@
     "author": "Lorain Jozef",
     "genre": "Comedy|Drama",
     "synopsis": "Unspecified diseases of blood and blood-forming organs",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 212
   },
   {
@@ -7529,7 +7535,7 @@
     "author": "Corine Gillibrand",
     "genre": "Crime|Drama|Horror|Thriller",
     "synopsis": "Other specified disorders of peritoneum",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 494
   },
   {
@@ -7601,7 +7607,7 @@
     "author": "Deanne Slide",
     "genre": "Documentary",
     "synopsis": "Occlusion and stenosis of basilar artery with cerebral infarction",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 453
   },
   {
@@ -7637,7 +7643,7 @@
     "author": "Deloris Gianuzzi",
     "genre": "Drama|Thriller",
     "synopsis": "Fetal complications from in utero procedure, delivered, with mention of postpartum complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 126
   },
   {
@@ -7646,7 +7652,7 @@
     "author": "Gussy Pernell",
     "genre": "Drama|Fantasy|Mystery",
     "synopsis": "Septicemia due to pseudomonas",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 244
   },
   {
@@ -7655,7 +7661,7 @@
     "author": "Alana Firidolfi",
     "genre": "Comedy|Romance",
     "synopsis": "Abnormal dark adaptation curve",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 178
   },
   {
@@ -7691,7 +7697,7 @@
     "author": "Galen Bolzen",
     "genre": "Crime|Drama",
     "synopsis": "Other dissociated deviation of eye movements",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 315
   },
   {
@@ -7718,7 +7724,7 @@
     "author": "Fayina Itzchaky",
     "genre": "Drama",
     "synopsis": "Closed fractures involving skull or face with other bones with subarachnoid, subdural, and extradural hemorrhage, with moderate [1-24 hours] loss of consciousness",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 353
   },
   {
@@ -7772,7 +7778,7 @@
     "author": "Paulita MacCaughen",
     "genre": "Sci-Fi",
     "synopsis": "Ventricular fibrillation",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 332
   },
   {
@@ -7808,7 +7814,7 @@
     "author": "Martyn Fibbings",
     "genre": "Children|Comedy|Fantasy",
     "synopsis": "Closed fracture of trochanteric section of neck of femur",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 107
   },
   {
@@ -7916,7 +7922,7 @@
     "author": "Urban Cardello",
     "genre": "Horror|Romance",
     "synopsis": "Other and unspecified hormones and synthetic substitutes causing adverse effects in therapeutic use",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 407
   },
   {
@@ -7934,7 +7940,7 @@
     "author": "Sheff Brunn",
     "genre": "Comedy|Drama",
     "synopsis": "Benign neoplasm of scrotum",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 236
   },
   {
@@ -7979,7 +7985,7 @@
     "author": "Allan Pesic",
     "genre": "Sci-Fi|Thriller",
     "synopsis": "Other accidental submersion or drowning in water transport accident injuring occupant of small boat, powered",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 302
   },
   {
@@ -7997,7 +8003,7 @@
     "author": "Putnam Nye",
     "genre": "Comedy",
     "synopsis": "Striking against or struck accidentally by other stationary object with subsequent fall",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 398
   },
   {
@@ -8006,7 +8012,7 @@
     "author": "Silvia Emor",
     "genre": "Comedy|Drama|Musical",
     "synopsis": "Anaphylactic reaction due to food additives",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 203
   },
   {
@@ -8015,7 +8021,7 @@
     "author": "Happy Hinzer",
     "genre": "Comedy|Drama",
     "synopsis": "Contracture of joint, multiple sites",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 294
   },
   {
@@ -8069,7 +8075,7 @@
     "author": "Kizzee Sutherby",
     "genre": "Animation|Children",
     "synopsis": "Food poisoning due to Vibrio vulnificus",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 329
   },
   {
@@ -8105,7 +8111,7 @@
     "author": "Ginnie Wildey",
     "genre": "Action|Adventure|Comedy|Crime|Thriller",
     "synopsis": "Injury to superior mesenteric artery (trunk)",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 153
   },
   {
@@ -8159,7 +8165,7 @@
     "author": "Dianna Pattemore",
     "genre": "Action|Drama|Fantasy|War",
     "synopsis": "Legal blindness, as defined in U.S.A.",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 145
   },
   {
@@ -8177,7 +8183,7 @@
     "author": "Broddie Gipp",
     "genre": "Fantasy|Horror|Sci-Fi|Thriller",
     "synopsis": "Hodgkin's paragranuloma, spleen",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 396
   },
   {
@@ -8222,7 +8228,7 @@
     "author": "Salome Etteridge",
     "genre": "Action|Romance|War|Western",
     "synopsis": "Fourth-degree perineal laceration, unspecified as to episode of care or not applicable",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 179
   },
   {
@@ -8267,7 +8273,7 @@
     "author": "Berty Kleimt",
     "genre": "(no genres listed)",
     "synopsis": "Mechanical complication due to corneal graft",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 399
   },
   {
@@ -8339,7 +8345,7 @@
     "author": "Kali Zavittieri",
     "genre": "Action|Comedy|Drama",
     "synopsis": "Vaginismus",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 285
   },
   {
@@ -8420,7 +8426,7 @@
     "author": "Rip Gerry",
     "genre": "Comedy",
     "synopsis": "Machinery accident in water transport injuring occupant of small boat, powered",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 323
   },
   {
@@ -8456,7 +8462,7 @@
     "author": "Thorpe Fabbri",
     "genre": "Comedy",
     "synopsis": "Other noninflammatory disorders of ovary, fallopian tube, and broad ligament",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 440
   },
   {
@@ -8492,7 +8498,7 @@
     "author": "Scarlett Heak",
     "genre": "Action|Thriller",
     "synopsis": "Central nervous system complication",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 286
   },
   {
@@ -8618,7 +8624,7 @@
     "author": "Zonnya Tennick",
     "genre": "Drama",
     "synopsis": "Other congenital anomalies of tongue",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 440
   },
   {
@@ -8627,7 +8633,7 @@
     "author": "Alana Huffadine",
     "genre": "Documentary",
     "synopsis": "Unspecified condition originating in the perinatal period",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 431
   },
   {
@@ -8690,7 +8696,7 @@
     "author": "Betteanne Keyson",
     "genre": "Documentary",
     "synopsis": "Other venereal diseases due to chlamydia trachomatis, pharynx",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 375
   },
   {
@@ -8762,7 +8768,7 @@
     "author": "Allx Giraudel",
     "genre": "Adventure|Mystery|Western",
     "synopsis": "Injury to kidney with open wound into cavity, complete disruption of kidney parenchyma",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 268
   },
   {
@@ -8834,7 +8840,7 @@
     "author": "Carrissa Goodread",
     "genre": "Drama",
     "synopsis": "Other joint derangement, not elsewhere classified, shoulder region",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 243
   },
   {
@@ -8861,7 +8867,7 @@
     "author": "Maison Stollmeier",
     "genre": "Drama|Romance",
     "synopsis": "Preauricular cyst",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 277
   },
   {
@@ -8906,7 +8912,7 @@
     "author": "Udell Pretty",
     "genre": "Romance",
     "synopsis": "Open wound of multiple sites of shoulder and upper arm, with tendon involvement",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 168
   },
   {
@@ -8978,7 +8984,7 @@
     "author": "Bea Paute",
     "genre": "Horror|Musical",
     "synopsis": "Butyrophenone-based tranquilizers causing adverse effects in therapeutic use",
-    "cover_image": "http://dummyimage.com/156x256.png/ff4444/ffffff",
+    "cover_image": "https://picsum.photos/200/300",
     "price": 289
   },
   {
@@ -9000,3 +9006,14 @@
     "price": 319
   }
 ]
+
+function fun(){
+  data.forEach(book => {
+    const newBook = new BookModel(book);
+    console.log(newBook)
+    newBook.save();
+  });
+}
+fun()
+
+
