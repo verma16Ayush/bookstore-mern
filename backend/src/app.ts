@@ -207,17 +207,17 @@ app.post(PATHS.checkout, AuthenticateUsers, async(req: Request<{}, {}, ICheckout
   }
 })
 
-app.get(PATHS.user, AuthenticateUsers, (req, res)=>{
+app.get(PATHS.user, AuthenticateUsers, async (req, res)=>{
   try{
     const user: Document<unknown, any, IUser> & IUser = res.locals.user;
-    const userOrders = db.OrderModel.find({user: user.id})
+    const userOrders = (await db.OrderModel.find({user: user.id}))    
     res.status(httpStatus.OK).send(JSON.stringify({
       name: user.name,
       email: user.email,
-      shippingAddresses: user.shippingAddresses,
       accessLevel: user.accessLevel,
-      datJoined: user.dateJoined,
-      orders: userOrders,
+      dateJoined: user.dateJoined,
+      shippingAddresses: user.shippingAddresses,
+      userOrders
     }))
     return;
   }
@@ -228,6 +228,8 @@ app.get(PATHS.user, AuthenticateUsers, (req, res)=>{
   }
 });
 
+// customise user profile
+// only name and shipping address customisation is supported
 app.post(PATHS.user, AuthenticateUsers, async (req: Request<{}, {}, IUserChangesReq>, res)=>{
   if(!req.body.name || req.body.shippingAddresses == undefined){
     res.send('name and email cannot be empty and shipping addresses cannot be undefined')
@@ -235,9 +237,15 @@ app.post(PATHS.user, AuthenticateUsers, async (req: Request<{}, {}, IUserChanges
   }
   try{
     const user : Document<unknown, any, IUser> & IUser = res.locals.user;
+    console.log('can get here')
     user.name = req.body.name,
     user.shippingAddresses = req.body.shippingAddresses;
     await user.save()
+    res.status(httpStatus.OK).send(JSON.stringify({
+      name: user.name,
+      shippingAddresses: user.shippingAddresses
+    }))
+    return;
   }
   catch (err) {
     console.log(err)
@@ -245,6 +253,7 @@ app.post(PATHS.user, AuthenticateUsers, async (req: Request<{}, {}, IUserChanges
   }
 })
 
+// add one shipping address
 app.post(PATHS.addShippingAddress, AuthenticateUsers, async (req: Request<{}, {}, IAddShippingAddressReq>, res)=>{
   const user: Document & IUser = res.locals.user;
   try{
